@@ -28,6 +28,7 @@ namespace ref\product\silkpickblock;
 
 use pocketmine\event\EventPriority;
 use pocketmine\event\player\PlayerBlockPickEvent;
+use pocketmine\item\ItemFactory;
 use pocketmine\plugin\PluginBase;
 
 use function count;
@@ -54,10 +55,12 @@ class Main extends PluginBase{
             }
 
             $inventory = $player->getInventory();
-            $item = $event->getBlock()->getSilkTouchDrops($inventory->getItemInHand())[0] ?? null;
-            if($item === null || $event->getResultItem()->equals($item, true, true)){
-                return;
-            }
+            $block = $event->getBlock();
+            $blockId = $block->getId();
+            $item = ItemFactory::getInstance()->get(
+                $blockId > 255 ? 255 - $blockId : $blockId,
+                $block->getMeta()
+            );
             $existingSlot = $inventory->first($item);
             if($existingSlot === -1 && $player->hasFiniteResources()){
                 return;
