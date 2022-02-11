@@ -63,6 +63,7 @@ class Main extends PluginBase{
                 return;
             }
 
+            $event->cancel();
             if($existingSlot !== -1){
                 if($existingSlot < $inventory->getHotbarSize()){
                     $inventory->setHeldItemIndex($existingSlot);
