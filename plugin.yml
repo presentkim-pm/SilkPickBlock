@@ -1,0 +1,8 @@
+---
+name: refSilkPickBlock
+main: ref\product\silkpickblock\Main
+version: 1.0.0
+api: [ 4.0.0 ]
+authors: [ ref-team, PresentKim ]
+description: Pick origin block with sneaking! (like silk-touch drops)
+...
