@@ -2,6 +2,6 @@
 branches:
 - main
 projects:
-  refSilkPickBlock:
+  SilkPickBlock:
     path: ""
 ...
