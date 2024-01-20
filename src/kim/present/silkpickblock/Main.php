@@ -27,9 +27,11 @@ declare(strict_types=1);
 
 namespace kim\present\silkpickblock;
 
+use pocketmine\block\tile\Tile;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerBlockPickEvent;
 use pocketmine\item\ItemBlock;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
 
 class Main extends PluginBase implements Listener{
@@ -79,6 +81,17 @@ class Main extends PluginBase implements Listener{
                 return;
             }
         }else{
+            // If the provided block is a tile object, store tile data into the item's NBT
+            $pos = $block->getPosition();
+            $tile = $pos->getWorld()->getTile($pos);
+            if($tile instanceof Tile){
+                $nbt = $tile->getCleanedNBT();
+                if($nbt instanceof CompoundTag){
+                    $pickItem->setCustomBlockData($nbt);
+                    $pickItem->setLore(["+(DATA)"]);
+                }
+            }
+
             // If player doesn't have pick item, give item to players
             $pickSlot = $inventory->first($pickItem);
             if($pickSlot === -1){
