@@ -2,7 +2,7 @@
 name: SilkPickBlock
 main: kim\present\silkpickblock\Main
 version: 1.0.0
-api: [ 4.0.0 ]
+api: [ 5.0.0 ]
 author: PresentKim
 description: Pick origin block with sneaking! (like silk-touch drops)
 ...

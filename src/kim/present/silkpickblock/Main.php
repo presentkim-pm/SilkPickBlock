@@ -29,7 +29,7 @@ namespace kim\present\silkpickblock;
 
 use pocketmine\event\EventPriority;
 use pocketmine\event\player\PlayerBlockPickEvent;
-use pocketmine\item\ItemFactory;
+use pocketmine\item\ItemBlock;
 use pocketmine\plugin\PluginBase;
 
 use function count;
@@ -57,11 +57,7 @@ class Main extends PluginBase{
 
             $inventory = $player->getInventory();
             $block = $event->getBlock();
-            $blockId = $block->getId();
-            $item = ItemFactory::getInstance()->get(
-                $blockId > 255 ? 255 - $blockId : $blockId,
-                $block->getMeta()
-            );
+            $item = new ItemBlock($block);
             $existingSlot = $inventory->first($item);
             if($existingSlot === -1 && $player->hasFiniteResources()){
                 return;
