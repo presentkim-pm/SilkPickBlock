@@ -27,18 +27,12 @@ declare(strict_types=1);
 
 namespace kim\present\silkpickblock;
 
-use pocketmine\event\EventPriority;
+use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerBlockPickEvent;
 use pocketmine\item\ItemBlock;
 use pocketmine\plugin\PluginBase;
 
-use function count;
-use function is_dir;
-use function rmdir;
-use function scandir;
-
-class Main extends PluginBase{
-    /** @throws \ReflectionException */
+class Main extends PluginBase implements Listener{
     public function onEnable() : void{
         /**
          * This is a plugin that does not use data folders.
@@ -49,39 +43,66 @@ class Main extends PluginBase{
             rmdir($dataFolder);
         }
 
-        $this->getServer()->getPluginManager()->registerEvent(PlayerBlockPickEvent::class, static function(PlayerBlockPickEvent $event) : void{
-            $player = $event->getPlayer();
-            if(!$player->isSneaking()){
-                return;
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
+    }
+
+    /**
+     * @handleCancelled
+     * @priority LOWEST
+     */
+    public function onPlayerBlockPickEvent(PlayerBlockPickEvent $event) : void{
+        $player = $event->getPlayer();
+        if(!$player->isSneaking()){
+            return;
+        }
+
+        $inventory = $player->getInventory();
+        $block = $event->getBlock();
+
+        /**
+         * Find the appropriate pick item
+         * If it failed, return without further action
+         */
+        // Create a new ItemBlock instance based on the provided block
+        $pickItem = new ItemBlock($block);
+        if($player->hasFiniteResources()){
+            $pickSlot = $inventory->first($pickItem);
+
+            // If the pick item is not found in the inventory, try finding the default pick item
+            if($pickSlot === -1){
+                $pickItem = $block->getPickedItem();
+                $pickSlot = $inventory->first($pickItem);
             }
 
-            $inventory = $player->getInventory();
-            $block = $event->getBlock();
-            $item = new ItemBlock($block);
-            $existingSlot = $inventory->first($item);
-            if($existingSlot === -1 && $player->hasFiniteResources()){
+            // If the pick item is still not found in the inventory, return without further action
+            if($pickSlot === -1){
                 return;
             }
-
-            $event->cancel();
-            if($existingSlot !== -1){
-                if($existingSlot < $inventory->getHotbarSize()){
-                    $inventory->setHeldItemIndex($existingSlot);
-                }else{
-                    $inventory->swap($inventory->getHeldItemIndex(), $existingSlot);
-                }
-            }else{
+        }else{
+            // If player doesn't have pick item, give item to players
+            $pickSlot = $inventory->first($pickItem);
+            if($pickSlot === -1){
                 $firstEmpty = $inventory->firstEmpty();
-                if($firstEmpty === -1){ //full inventory
-                    $inventory->setItemInHand($item);
-                }elseif($firstEmpty < $inventory->getHotbarSize()){
-                    $inventory->setItem($firstEmpty, $item);
-                    $inventory->setHeldItemIndex($firstEmpty);
+                if($firstEmpty === -1){
+                    $inventory->setItemInHand($pickItem);
+                    $pickSlot = $inventory->getHeldItemIndex();
                 }else{
-                    $inventory->swap($inventory->getHeldItemIndex(), $firstEmpty);
-                    $inventory->setItemInHand($item);
+                    $pickSlot = $firstEmpty;
                 }
             }
-        }, EventPriority::LOWEST, $this);
+        }
+
+        /**
+         * Move the pick item to the appropriate slot in the player's inventory
+         * If the pick item is in the hotbar, update the hotbar index to the item's slot.
+         * Otherwise, swap the current hotbar item with the pick item.
+         */
+        if($pickSlot < $inventory->getHotbarSize()){
+            $inventory->setHeldItemIndex($pickSlot);
+        }else{
+            $inventory->swap($inventory->getHeldItemIndex(), $pickSlot);
+        }
+
+        $event->cancel();
     }
 }
