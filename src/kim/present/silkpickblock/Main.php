@@ -34,6 +34,11 @@ use pocketmine\item\ItemBlock;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
 
+use function count;
+use function is_dir;
+use function rmdir;
+use function scandir;
+
 class Main extends PluginBase implements Listener{
 
     public function onEnable() : void{
@@ -98,11 +103,11 @@ class Main extends PluginBase implements Listener{
             if($pickSlot === -1){
                 $firstEmpty = $inventory->firstEmpty();
                 if($firstEmpty === -1){
-                    $inventory->setItemInHand($pickItem);
                     $pickSlot = $inventory->getHeldItemIndex();
                 }else{
                     $pickSlot = $firstEmpty;
                 }
+                $inventory->setItem($pickSlot, $pickItem);
             }
         }
 
