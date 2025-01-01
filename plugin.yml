@@ -1,7 +1,7 @@
 ---
 name: SilkPickBlock
 main: kim\present\silkpickblock\Main
-version: 1.0.0
+version: 1.0.1
 api: [ 5.0.0 ]
 author: PresentKim
 description: Pick block while preserving in its original state!
