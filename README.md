@@ -14,7 +14,7 @@
   <img src="https://raw.githubusercontent.com/presentkim-pm/SilkPickBlock/main/assets/icon.png" alt="Logo" width="80" height="80">
   <h3>SilkPickBlock</h3>
   <p align="center">
-    An plugin that make pick block while preserving in its original state!
+    A plugin that makes pick block preserve the block in its original state!
 
 [Contact to me][author-discord] · [Report a bug][issues-url] · [Request a feature][issues-url]
 
@@ -24,75 +24,44 @@
 
 <!-- ABOUT THE PROJECT -->
 
-## About The Project
+### Overview
 
 ![Project Preview][project-preview]
 
-Have you ever found yourself wanting to pick up a farmland block?
-Or perhaps, have you ever carried bone meal to place on fully grown crops?
-There are moments when these small inconveniences can feel quite significant. (That's why I created this.)
+- **What it does**
+  - While sneaking (holding `Shift`), the pick-item function (`mouse wheel`) picks the block while preserving its
+    original state, e.g. a farmland block, or a chest with its contents.
+- **Highlights**
+  - Block picked while keeping its original state.
+  - Supports data copy from tile blocks, e.g. chest, furnace, etc.
+  - Primarily useful for picking farmland or copying chests.
 
-Now, you can pick up a block while preserving its original state!  
-Just use the pick-item function (`mouse wheel`) while sneaking (holding the `Shift` key)!
+---
 
-> Primarily useful for pick farmland or copying chest.
+### Installation & Requirements
 
-:heavy_check_mark: Block picked while keeping in its original state   
-:heavy_check_mark: Supports data copy from tile blocks. ex) chest, furance, etc...
+- **Server**
+  - [axolotl-pm/PocketMine-MP](https://github.com/axolotl-pm/PocketMine-MP) `5.51` or higher (`plugin.yml` `api: [5.51.0]`),
+    which uses BedrockProtocol 64 (Bedrock `1.26.60`).
+  - PHP `8.4` or higher.
+- **Installation**
+  - Download `SilkPickBlock.phar` from [GitHub Releases][releases-url] and place it into your server's `plugins` directory.
+  - Restart the server; the plugin will load automatically according to `plugin.yml`.
+- **Old versions**
+  - The version for the original [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) `5.x` (PHP 8.1+, distributed
+    through Poggit) is kept on the [`legacy/pmmp-5.44`](https://github.com/presentkim-pm/SilkPickBlock/tree/legacy/pmmp-5.44) branch.
+- **Development**
+  - `composer install` then `composer test` runs the PHPUnit tests.
 
-##
+---
 
------
-
-## Target software:
-
-This plugin officially only works with [`Pocketmine-MP`](https://github.com/pmmp/PocketMine-MP/).
-
-##
-
------
-
-## Downloads
-
-### Download from [Github Releases][releases-url]
-
-[![Github Downloads][release-badge]][releases-url]
-
-###
-
-### Download from [Poggit Releases][poggit-release-url]
-
-[![Poggit Downloads][poggit-downloads-badge]][poggit-release-url]
-
-##
-
------
-
-## Installation
-
-1) Download plugin `.phar` releases
-2) Move downloaded `.phar` file to server's **/plugins/** folder
-3) Restart the server
-
-##
-
------
-
-## License
+### License
 
 Distributed under the **LGPL 3.0**. See [LICENSE][license-url] for more information
-
-##
 
 -----
 
 [author-discord]: https://discordapp.com/users/345772340279508993
-
-[poggit-ci-badge]: https://poggit.pmmp.io/ci.shield/presentkim-pm/SilkPickBlock/SilkPickBlock?style=for-the-badge
-
-[poggit-version-badge]: https://poggit.pmmp.io/shield.api/SilkPickBlock?style=for-the-badge
-
-[poggit-downloads-badge]: https://poggit.pmmp.io/shield.dl.total/SilkPickBlock?style=for-the-badge
 
 [version-badge]: https://img.shields.io/github/v/release/presentkim-pm/SilkPickBlock?display_name=tag&style=for-the-badge&label=VERSION
 
@@ -101,10 +70,6 @@ Distributed under the **LGPL 3.0**. See [LICENSE][license-url] for more informat
 [stars-badge]: https://img.shields.io/github/stars/presentkim-pm/SilkPickBlock.svg?style=for-the-badge
 
 [license-badge]: https://img.shields.io/github/license/presentkim-pm/SilkPickBlock.svg?style=for-the-badge
-
-[poggit-ci-url]: https://poggit.pmmp.io/ci/presentkim-pm/SilkPickBlock/SilkPickBlock
-
-[poggit-release-url]: https://poggit.pmmp.io/p/SilkPickBlock
 
 [stars-url]: https://github.com/presentkim-pm/SilkPickBlock/stargazers
 
