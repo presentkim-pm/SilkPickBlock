@@ -1,8 +1,0 @@
----
-branches:
-  - main
-projects:
-  SilkPickBlock:
-    path: ""
-    icon: "assets/icon.png"
-...

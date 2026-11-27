@@ -39,16 +39,19 @@ use function is_dir;
 use function rmdir;
 use function scandir;
 
-class Main extends PluginBase implements Listener{
+final class Main extends PluginBase implements Listener{
 
-    public function onEnable() : void{
+    protected function onEnable() : void{
         /**
          * This is a plugin that does not use data folders.
          * Delete the unnecessary data folder of this plugin for users.
          */
         $dataFolder = $this->getDataFolder();
-        if(is_dir($dataFolder) && count(scandir($dataFolder)) <= 2){
-            rmdir($dataFolder);
+        if(is_dir($dataFolder)){
+            $entries = scandir($dataFolder);
+            if($entries !== false && count($entries) <= 2){
+                @rmdir($dataFolder);
+            }
         }
 
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
